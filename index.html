@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BP Reels — Daily Auto-Posting for Your Instagram & YouTube</title>
+<meta name="description" content="Pick your niche. We post trending reels to your Instagram and YouTube every single day — automatically. Launch offer ₹1,999/month.">
+<style>
+  :root{
+    --bg:#0b0b12; --card:#14141f; --card2:#1b1b2a; --line:#2a2a3d;
+    --txt:#f2f2f7; --muted:#9a9ab0;
+    --grad1:#7c3aed; --grad2:#ec4899; --grad3:#06b6d4;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans",sans-serif;line-height:1.6;overflow-x:hidden}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:50;background:rgba(11,11,18,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;max-width:1080px;margin:0 auto}
+  .logo{font-weight:800;font-size:1.15rem;letter-spacing:.5px}
+  .logo span{background:linear-gradient(90deg,var(--grad1),var(--grad2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .nav-cta{background:linear-gradient(90deg,var(--grad1),var(--grad2));color:#fff;text-decoration:none;font-weight:700;font-size:.85rem;padding:10px 18px;border-radius:99px}
+
+  /* HERO */
+  .hero{position:relative;padding:80px 0 60px;text-align:center}
+  .hero::before{content:"";position:absolute;inset:0;background:
+    radial-gradient(600px 300px at 20% 0%,rgba(124,58,237,.25),transparent 70%),
+    radial-gradient(500px 300px at 80% 10%,rgba(236,72,153,.18),transparent 70%);
+    pointer-events:none}
+  .badge{display:inline-block;font-size:.75rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#c4b5fd;border:1px solid var(--line);padding:7px 16px;border-radius:99px;margin-bottom:22px;background:var(--card)}
+  h1{font-size:clamp(2rem,5.5vw,3.4rem);font-weight:800;line-height:1.15;letter-spacing:-.5px}
+  h1 .hl{background:linear-gradient(90deg,var(--grad1),var(--grad2),var(--grad3));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--muted);font-size:clamp(1rem,2.5vw,1.2rem);max-width:620px;margin:20px auto 0}
+  .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+  .btn{display:inline-block;font-weight:700;text-decoration:none;padding:15px 30px;border-radius:14px;font-size:1rem;transition:transform .15s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-p{background:linear-gradient(90deg,var(--grad1),var(--grad2));color:#fff;box-shadow:0 8px 30px rgba(168,85,247,.35)}
+  .btn-g{border:1px solid var(--line);color:var(--txt);background:var(--card)}
+  .hero-note{margin-top:16px;color:var(--muted);font-size:.85rem}
+
+  /* MARQUEE */
+  .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0;overflow:hidden;white-space:nowrap;background:var(--card)}
+  .marquee-inner{display:inline-block;animation:scroll 28s linear infinite}
+  .marquee span{color:var(--muted);font-weight:600;font-size:.9rem;margin:0 22px}
+  .marquee b{color:var(--txt)}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* SECTIONS */
+  section{padding:70px 0}
+  .kicker{color:#c4b5fd;font-weight:700;letter-spacing:2px;text-transform:uppercase;font-size:.75rem;margin-bottom:10px}
+  h2{font-size:clamp(1.6rem,4vw,2.3rem);font-weight:800;letter-spacing:-.3px;margin-bottom:14px}
+  .lead{color:var(--muted);max-width:560px}
+
+  /* STEPS */
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-top:40px}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;position:relative}
+  .step-num{position:absolute;top:-16px;left:24px;background:linear-gradient(90deg,var(--grad1),var(--grad2));width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.95rem}
+  .step h3{margin:10px 0 8px;font-size:1.1rem}
+  .step p{color:var(--muted);font-size:.92rem}
+
+  /* NICHES */
+  .niches{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:36px}
+  .niche{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 12px;text-align:center;font-weight:600;font-size:.92rem;transition:border-color .15s,transform .15s}
+  .niche:hover{border-color:var(--grad1);transform:translateY(-3px)}
+  .niche small{display:block;color:var(--muted);font-weight:400;font-size:.75rem;margin-top:4px}
+
+  /* PRICING */
+  .price-box{max-width:480px;margin:40px auto 0;background:linear-gradient(160deg,var(--card2),var(--card));border:1px solid var(--grad1);border-radius:22px;padding:38px;text-align:center;box-shadow:0 20px 60px rgba(124,58,237,.2)}
+  .price-tag{font-size:3rem;font-weight:800;letter-spacing:-1px}
+  .price-tag small{font-size:1.1rem;font-weight:600;color:var(--muted)}
+  .strike{color:var(--muted);text-decoration:line-through;font-size:1.05rem;margin-bottom:6px}
+  .save{display:inline-block;background:rgba(236,72,153,.15);color:#f9a8d4;font-size:.78rem;font-weight:700;padding:5px 12px;border-radius:99px;margin-bottom:18px;letter-spacing:.5px}
+  .feats{list-style:none;text-align:left;margin:26px 0;display:grid;gap:12px}
+  .feats li{display:flex;gap:10px;font-size:.95rem;color:#dcdce8}
+  .feats .tick{color:#34d399;font-weight:800}
+
+  /* TRUST */
+  .trust{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;margin-top:36px}
+  .t-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px}
+  .t-card h3{font-size:1rem;margin-bottom:8px}
+  .t-card p{color:var(--muted);font-size:.9rem}
+  .t-ico{font-size:1.4rem;margin-bottom:12px;display:block}
+
+  /* FAQ */
+  .faq{max-width:720px;margin-top:36px}
+  details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 22px;margin-bottom:12px}
+  summary{font-weight:700;cursor:pointer;font-size:.98rem;list-style:none;display:flex;justify-content:space-between;align-items:center}
+  summary::after{content:"+";color:var(--muted);font-size:1.3rem}
+  details[open] summary::after{content:"–"}
+  details p{color:var(--muted);font-size:.92rem;margin-top:12px}
+
+  /* FINAL CTA */
+  .final{text-align:center;padding:80px 0 60px;position:relative}
+  .final::before{content:"";position:absolute;inset:0;background:radial-gradient(500px 260px at 50% 60%,rgba(124,58,237,.22),transparent 70%);pointer-events:none}
+
+  footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:.8rem;text-align:center}
+  footer a{color:#c4b5fd;text-decoration:none}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <div class="logo">BP <span>Reels</span></div>
+    <a href="#pricing" class="nav-cta">Start Today →</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="badge">🚀 Launch offer — first 50 customers</div>
+    <h1>Your Instagram & YouTube<br>post <span class="hl">every single day.</span><br>You do nothing.</h1>
+    <p class="sub">Pick your niche → pay once a month → we auto-post trending reels to your accounts at the time you choose. No password sharing. No tech skills needed.</p>
+    <div class="cta-row">
+      <a href="#pricing" class="btn btn-p">Start at ₹1,999/mo</a>
+      <a href="#how" class="btn btn-g">See how it works</a>
+    </div>
+    <p class="hero-note">✓ Setup in 5 minutes &nbsp;·&nbsp; ✓ Cancel anytime &nbsp;·&nbsp; ✓ Posting starts within 48 hours</p>
+  </div>
+</header>
+
+<div class="marquee">
+  <div class="marquee-inner">
+    <span>🏋️ <b>Gym &amp; Fitness</b></span><span>💇 <b>Salon &amp; Beauty</b></span><span>☕ <b>Cafes &amp; Restaurants</b></span><span>👗 <b>Fashion &amp; Clothing</b></span><span>🏠 <b>Real Estate</b></span><span>✨ <b>Motivation Pages</b></span><span>🎬 <b>Movie &amp; Fan Pages</b></span><span>👶 <b>Kids Content</b></span><span>🚗 <b>Automobiles</b></span><span>📈 <b>Business Pages</b></span>
+    <span>🏋️ <b>Gym &amp; Fitness</b></span><span>💇 <b>Salon &amp; Beauty</b></span><span>☕ <b>Cafes &amp; Restaurants</b></span><span>👗 <b>Fashion &amp; Clothing</b></span><span>🏠 <b>Real Estate</b></span><span>✨ <b>Motivation Pages</b></span><span>🎬 <b>Movie &amp; Fan Pages</b></span><span>👶 <b>Kids Content</b></span><span>🚗 <b>Automobiles</b></span><span>📈 <b>Business Pages</b></span>
+  </div>
+</div>
+
+<section id="how">
+  <div class="wrap">
+    <p class="kicker">How it works</p>
+    <h2>From payment to daily posting<br>in under 48 hours</h2>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><h3>Pick your niche</h3><p>Choose from our ready-made reel libraries — gym, salon, cafe, motivation, fan pages &amp; more. New content added weekly.</p></div>
+      <div class="step"><div class="step-num">2</div><h3>Connect on a 5-min call</h3><p>After payment, our team connects your Instagram &amp; YouTube using Instagram's and Google's official login — you never share your password with anyone.</p></div>
+      <div class="step"><div class="step-num">3</div><h3>We post daily, forever</h3><p>Reels go out automatically at the time you choose — 7 AM, 12 PM, 8 PM, your call. Your page grows while you run your business.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="niches" style="background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <p class="kicker">Niche libraries</p>
+    <h2>Content built for your page</h2>
+    <p class="lead">Every library is original AI-generated content made by us — so your page never gets copyright strikes.</p>
+    <div class="niches">
+      <div class="niche">Gym &amp; Fitness<small>workout, transformation</small></div>
+      <div class="niche">Salon &amp; Beauty<small>makeup, grooming, glow-up</small></div>
+      <div class="niche">Cafe &amp; Food<small>recipes, cafe vibes</small></div>
+      <div class="niche">Fashion<small>outfits, styling, drops</small></div>
+      <div class="niche">Motivation<small>quotes, success stories</small></div>
+      <div class="niche">Kids Content<small>cute, fun, wholesome</small></div>
+      <div class="niche">Movie Pages<small>edits, clips, fan content</small></div>
+      <div class="niche">Real Estate<small>property, luxury homes</small></div>
+      <div class="niche">Automobiles<small>cars, superbikes</small></div>
+      <div class="niche">Astro &amp; Spirituality<small>horoscopes, devotional</small></div>
+      <div class="niche">Finance<small>money tips, business</small></div>
+      <div class="niche">+ Your custom niche<small>ask us on WhatsApp</small></div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <p class="kicker" style="text-align:center">Pricing</p>
+    <h2 style="text-align:center">One plan. No confusion.</h2>
+    <div class="price-box">
+      <div class="save">🔥 LAUNCH OFFER — SAVE 33%</div>
+      <div class="strike">₹2,999/mo</div>
+      <div class="price-tag">₹1,999<small>/month</small></div>
+      <ul class="feats">
+        <li><span class="tick">✓</span> 1 reel posted every day on Instagram</li>
+        <li><span class="tick">✓</span> Same reel posted on YouTube Shorts</li>
+        <li><span class="tick">✓</span> Original AI content library for your niche</li>
+        <li><span class="tick">✓</span> You choose the posting time</li>
+        <li><span class="tick">✓</span> Official connection — no password needed</li>
+        <li><span class="tick">✓</span> Done-for-you setup on a 5-minute call</li>
+        <li><span class="tick">✓</span> Cancel anytime, no questions asked</li>
+      </ul>
+      <a href="#" id="wa-cta" class="btn btn-p" style="width:100%">Message us on WhatsApp →</a>
+      <p class="hero-note" style="margin-top:14px">Pay after we confirm your niche is available.</p>
+    </div>
+  </div>
+</section>
+
+<section id="trust" style="background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <p class="kicker">Why trust us</p>
+    <h2>Built safe, from day one</h2>
+    <div class="trust">
+      <div class="t-card"><span class="t-ico">🔐</span><h3>No passwords. Ever.</h3><p>We connect your accounts through Instagram's and Google's official login systems. We literally cannot see or store your password.</p></div>
+      <div class="t-card"><span class="t-ico">🎨</span><h3>100% original content</h3><p>Our reels are AI-generated and made in-house — no stolen videos, no copyright strikes, no account bans.</p></div>
+      <div class="t-card"><span class="t-ico">📅</span><h3>Consistency = growth</h3><p>The algorithm rewards pages that post daily. Most businesses quit after 2 weeks. You never have to think about it.</p></div>
+      <div class="t-card"><span class="t-ico">↩️</span><h3>Cancel anytime</h3><p>No lock-in, no yearly contract. One WhatsApp message stops your subscription. No awkward calls.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <p class="kicker">FAQ</p>
+    <h2>Straight answers</h2>
+    <div class="faq">
+      <details open><summary>Do you need my Instagram password?</summary><p>No. We use Instagram's and YouTube's official connection system. You log in yourself on a secure screen and tap "Allow" — that's it. We never see your password.</p></details>
+      <details><summary>Where do the reels come from?</summary><p>Our own library of original AI-generated reels for your niche. They're made and licensed by us, so there are zero copyright problems for your page.</p></details>
+      <details><summary>Will my account get banned?</summary><p>No — we post through Instagram's and YouTube's official posting systems, the same ones used by big brands. We don't use any bots or password hacks.</p></details>
+      <details><summary>Can I choose what gets posted?</summary><p>Yes. You pick the niche and posting time, and we can swap out any video you don't like. Just message us on WhatsApp.</p></details>
+      <details><summary>What do I need to get started?</summary><p>An Instagram Business/Creator account (free to switch, we'll guide you) and a YouTube channel. That's all.</p></details>
+      <details><summary>When does posting start?</summary><p>Within 48 hours of your setup call. You'll see the first reel go out on schedule.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <h2>Stop posting manually.<br>Start posting <span class="hl" style="background:linear-gradient(90deg,var(--grad1),var(--grad2));-webkit-background-clip:text;background-clip:text;color:transparent">on autopilot.</span></h2>
+    <p class="sub" style="margin:16px auto 30px">Launch offer is limited to the first 50 customers. After that, price goes to ₹2,999.</p>
+    <a href="#" id="wa-cta2" class="btn btn-p">Claim your spot on WhatsApp →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><b>BP Reels</b> — a Beyond Pixells product · Questions? <a href="#" id="wa-foot">WhatsApp us</a></p>
+    <p style="margin-top:6px">© 2026 Beyond Pixells. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  // TODO: Replace with your real WhatsApp number (country code, no + or spaces)
+  var WA_NUMBER = "919XXXXXXXXX";
+  var WA_MSG = encodeURIComponent("Hi! I want to start auto-posting for my page. My niche is: ");
+  document.querySelectorAll("#wa-cta, #wa-cta2, #wa-foot").forEach(function(el){
+    el.href = "https://wa.me/" + WA_NUMBER + "?text=" + WA_MSG;
+    el.target = "_blank";
+    el.rel = "noopener";
+  });
+</script>
+</body>
+</html>
