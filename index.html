@@ -178,7 +178,7 @@
       <div class="niche">Automobiles<small>cars, superbikes</small></div>
       <div class="niche">Astro &amp; Spirituality<small>horoscopes, devotional</small></div>
       <div class="niche">Finance<small>money tips, business</small></div>
-      <div class="niche">+ Your custom niche<small>ask us on WhatsApp</small></div>
+      <div class="niche">+ Custom niche<small>request any niche</small></div>
     </div>
   </div>
 </section>
@@ -200,13 +200,13 @@
         <li><span class="tick">✓</span> Done-for-you setup on a 5-minute call</li>
         <li><span class="tick">✓</span> Cancel anytime, no questions asked</li>
       </ul>
-      <a href="#" id="wa-cta" class="btn btn-p" style="width:100%">Message us on WhatsApp →</a>
+      <a href="#niches" class="btn btn-p" style="width:100%">Pick your niche below →</a>
       <p class="hero-note" style="margin-top:14px">Pay after we confirm your niche is available.</p>
     </div>
 
     <div class="guarantee">
       <h3>🛡️ Our Consistency Guarantee — in writing</h3>
-      <p>If we ever miss <b>more than 3 posting days</b> in your monthly cycle, your next month is <b>free</b>. No forms, no arguments — just message us on WhatsApp and it's applied.</p>
+      <p>If we ever miss <b>more than 3 posting days</b> in your monthly cycle, your next month is <b>free</b>. No forms, no arguments — just email us and it's applied.</p>
     </div>
   </div>
 </section>
@@ -219,7 +219,7 @@
       <div class="t-card"><span class="t-ico">🔐</span><h3>No passwords. Ever.</h3><p>We connect your accounts through Instagram's and Google's official login systems. We literally cannot see or store your password.</p></div>
       <div class="t-card"><span class="t-ico">🎨</span><h3>100% original content</h3><p>Our reels are AI-generated and made in-house — no stolen videos, no copyright strikes, no account bans.</p></div>
       <div class="t-card"><span class="t-ico">📅</span><h3>Consistency = growth</h3><p>The algorithm rewards pages that post daily. Most businesses quit after 2 weeks. You never have to think about it.</p></div>
-      <div class="t-card"><span class="t-ico">↩️</span><h3>Cancel anytime</h3><p>No lock-in, no yearly contract. One WhatsApp message stops your subscription. No awkward calls.</p></div>
+      <div class="t-card"><span class="t-ico">↩️</span><h3>Cancel anytime</h3><p>No lock-in, no yearly contract. One email stops your subscription. No awkward calls.</p></div>
     </div>
   </div>
 </section>
@@ -232,7 +232,7 @@
       <details open><summary>Do you need my Instagram password?</summary><p>No. We use Instagram's and YouTube's official connection system. You log in yourself on a secure screen and tap "Allow" — that's it. We never see your password.</p></details>
       <details><summary>Where do the reels come from?</summary><p>Our own library of original AI-generated reels for your niche. They're made and licensed by us, so there are zero copyright problems for your page.</p></details>
       <details><summary>Will my account get banned?</summary><p>No — we post through Instagram's and YouTube's official posting systems, the same ones used by big brands. We don't use any bots or password hacks.</p></details>
-      <details><summary>Can I choose what gets posted?</summary><p>Yes. You pick the niche and posting time, and we can swap out any video you don't like. Just message us on WhatsApp.</p></details>
+      <details><summary>Can I choose what gets posted?</summary><p>Yes. You pick the niche and posting time, and we can swap out any video you don't like. Just email us and we'll swap it.</p></details>
       <details><summary>What do I need to get started?</summary><p>An Instagram Business/Creator account (free to switch, we'll guide you) and a YouTube channel. That's all.</p></details>
       <details><summary>When does posting start?</summary><p>Within 48 hours of your setup call. You'll see the first reel go out on schedule.</p></details>
       <details><summary>What if posting stops or a day is missed?</summary><p>Our Consistency Guarantee covers you: if we miss more than 3 posting days in your monthly cycle, your next month is free.</p></details>
@@ -244,7 +244,7 @@
   <div class="wrap">
     <h2>Stop posting manually.<br>Start posting <span class="hl" style="background:linear-gradient(90deg,var(--grad1),var(--grad2));-webkit-background-clip:text;background-clip:text;color:transparent">on autopilot.</span></h2>
     <p class="sub" style="margin:16px auto 30px">Launch offer is limited to the first 50 customers. After that, price goes to ₹2,999.</p>
-    <a href="#" id="wa-cta2" class="btn btn-p">Claim your spot on WhatsApp →</a>
+    <a href="#niches" class="btn btn-p">Claim your spot →</a>
   </div>
 </section>
 
@@ -255,9 +255,9 @@
       <a href="privacy.html">Privacy Policy</a>
       <a href="terms.html">Terms of Service</a>
       <a href="data-deletion.html">Data Deletion</a>
-      <a href="admin.html" style="opacity:.55">Admin</a>
+      <a href="admin/" style="opacity:.55">Admin</a>
     </div>
-    <p>Questions? <a href="#" id="wa-foot">WhatsApp us</a></p>
+    <p>Questions? <a href="mailto:support@bpreels.in">support@bpreels.in</a></p>
     <p style="margin-top:6px">© 2026 Beyond Pixells. All rights reserved.</p>
   </div>
 </footer>
@@ -279,14 +279,6 @@
     tick();setInterval(tick,1000);
   }catch(e){}
 
-  // TODO: Replace with real WhatsApp number (country code, no + or spaces)
-  var WA_NUMBER = "919XXXXXXXXX";
-  var WA_MSG = encodeURIComponent("Hi! I want to start auto-posting for my page. My niche is: ");
-  document.querySelectorAll("#wa-cta, #wa-cta2, #wa-foot").forEach(function(el){
-    el.href = "https://wa.me/" + WA_NUMBER + "?text=" + WA_MSG;
-    el.target = "_blank";
-    el.rel = "noopener";
-  });
 </script>
 
 <!-- ============ SIGNUP MODAL ============ -->
@@ -328,7 +320,7 @@
       var grid = document.getElementById("niche-grid");
       grid.innerHTML = d.niches.map(function(n){
         return '<div class="niche pickable" data-slug="'+n.slug+'">'+n.name+'<small>'+ (n.description||"") +'</small></div>';
-      }).join("") + '<div class="niche" style="opacity:.6">+ Custom niche<small>ask us on WhatsApp</small></div>';
+      }).join("") + '<div class="niche" style="opacity:.6">+ Custom niche<small>request any niche</small></div>';
       grid.querySelectorAll(".pickable").forEach(function(el){
         el.addEventListener("click", function(){
           grid.querySelectorAll(".pickable").forEach(function(x){x.classList.remove("sel")});
@@ -353,7 +345,7 @@
       '<div class="su-price"><b>₹'+Number(BPR_SELECTED.price||1999).toLocaleString("en-IN")+'/month</b> · 1 reel daily on Instagram + YouTube</div>',
       '<div class="su-grid2">',
       '  <div><label>Your name *</label><input id="su-name" placeholder="e.g. Rahul Sharma"></div>',
-      '  <div><label>WhatsApp number *</label><input id="su-wa" inputmode="numeric" placeholder="98XXXXXXXX"></div>',
+      '  <div><label>Mobile number *</label><input id="su-wa" inputmode="numeric" placeholder="98XXXXXXXX"></div>',
       '</div>',
       '<label>Email (optional)</label><input id="su-email" placeholder="you@email.com">',
       '<div class="su-grid2">',
@@ -365,7 +357,7 @@
       '<div style="height:16px"></div>',
       '<button class="btn btn-p" style="width:100%" onclick="submitSignup()">Pay ₹'+Number(BPR_SELECTED.price||1999).toLocaleString("en-IN")+' & Start →</button>',
       '<p class="su-err" id="su-err"></p>',
-      '<p class="su-note">Secure payment link comes on WhatsApp. Posting starts within 48 hours of payment. Cancel anytime.</p>',
+      '<p class="su-note">We contact you within 24 hours to complete payment. Posting starts within 48 hours. Cancel anytime.</p>',
     ].join("\n");
   }
 
@@ -392,18 +384,17 @@
   }
 
   function showSuccess(ref){
-    var waText = encodeURIComponent("Hi! I just subscribed to BP Reels.\nNiche: "+BPR_SELECTED.name+"\nReference: "+ref+"\nPlease send me the payment link to activate my daily posting.");
-    var waLink = "https://wa.me/" + window.WA_NUMBER + "?text=" + waText;
     document.getElementById("su-body").innerHTML = [
       '<div class="su-success">',
       '  <div class="su-check">🎉</div>',
-      '  <h3>You\'re on the list!</h3>',
-      '  <p class="su-price">Your reference: </p>',
+      '  <h3>You\'re in!</h3>',
+      '  <p class="su-price">Your signup reference:</p>',
       '  <div class="su-ref">'+ref+'</div>',
-      '  <p style="font-size:.92rem">Step 1 — Tap below and send us the message. We reply with your <b>secure payment link</b> (UPI / card).</p>',
-      '  <div style="height:14px"></div>',
-      '  <a class="btn btn-p" style="width:100%" href="'+waLink+'" target="_blank" rel="noopener">Send on WhatsApp →</a>',
-      '  <p class="su-note">Step 2 — Pay, and we activate your daily posting within 48 hours. If the button doesn\'t open WhatsApp, save this reference and message us anytime.</p>',
+      '  <p style="font-size:.92rem">We\'ll contact you within <b>24 hours</b> to complete payment and activate your daily posting.</p>',
+      '  <p style="font-size:.92rem;margin-top:8px">Keep this reference handy — or screenshot this screen.</p>',
+      '  <div style="height:16px"></div>',
+      '  <button class="btn btn-p" style="width:100%" onclick="document.getElementById(\'signup-modal\').style.display=\'none\'">Done</button>',
+      '  <p class="su-note">Questions? support@bpreels.in</p>',
       '</div>'
     ].join("\n");
   }
