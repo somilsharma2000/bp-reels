@@ -165,7 +165,8 @@
     <p class="kicker">Niche libraries</p>
     <h2>Content built for your page</h2>
     <p class="lead">Every library is original AI-generated content made by us — so your page never gets copyright strikes.</p>
-    <div class="niches">
+    <p class="lead" style="margin-top:10px;font-size:.95rem"><b>Tap a niche to start your subscription →</b></p>
+    <div class="niches" id="niche-grid">
       <div class="niche">Gym &amp; Fitness<small>workout, transformation</small></div>
       <div class="niche">Salon &amp; Beauty<small>makeup, grooming, glow-up</small></div>
       <div class="niche">Cafe &amp; Food<small>recipes, cafe vibes</small></div>
@@ -254,6 +255,7 @@
       <a href="privacy.html">Privacy Policy</a>
       <a href="terms.html">Terms of Service</a>
       <a href="data-deletion.html">Data Deletion</a>
+      <a href="admin.html" style="opacity:.55">Admin</a>
     </div>
     <p>Questions? <a href="#" id="wa-foot">WhatsApp us</a></p>
     <p style="margin-top:6px">© 2026 Beyond Pixells. All rights reserved.</p>
@@ -286,5 +288,130 @@
     el.rel = "noopener";
   });
 </script>
+
+<!-- ============ SIGNUP MODAL ============ -->
+<style>
+  #signup-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:100;overflow:auto;padding:20px 14px}
+  .su-box{background:var(--card);border:1px solid var(--line);border-radius:18px;max-width:460px;margin:24px auto;padding:26px}
+  .su-box h3{font-size:1.15rem;margin-bottom:2px}
+  .su-price{color:var(--muted);font-size:.88rem;margin-bottom:16px}
+  .su-price b{color:#fff}
+  .su-box label{display:block;font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:10px 0 4px}
+  .su-box input,.su-box select{width:100%;background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:9px;padding:10px 12px;font-size:.95px;font-size:.95rem;font-family:inherit}
+  .su-box input:focus,.su-box select:focus{outline:none;border-color:var(--grad1)}
+  .su-err{color:#ef4444;font-size:.83rem;min-height:1.2em;margin-top:8px}
+  .su-note{color:var(--muted);font-size:.78rem;margin-top:12px;line-height:1.5}
+  .su-success{text-align:center;padding:10px 4px}
+  .su-check{font-size:3rem;line-height:1}
+  .su-ref{display:inline-block;background:var(--card2);border:1px solid var(--line);border-radius:9px;padding:7px 16px;font-weight:800;letter-spacing:.12em;margin:10px 0}
+  .su-grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+  @media(max-width:480px){.su-grid2{grid-template-columns:1fr}}
+  .niche.pickable{cursor:pointer}
+  .niche.sel{border-color:var(--grad2);background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(236,72,153,.14))}
+</style>
+<div id="signup-modal">
+  <div class="su-box" id="su-body"></div>
+</div>
+
+<script>
+  var BPR_API = "https://base44.app/api/apps/6a951232721dcd9fd8509a16/functions/adminApi";
+  var BPR_NICHES = [];
+  var BPR_SELECTED = null;
+
+  // ---- render live niches from the admin panel ----
+  fetch(BPR_API, {method:"POST", headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({action:"list_niches"})})
+    .then(function(r){return r.json()})
+    .then(function(d){
+      if(!d.niches || !d.niches.length) return;
+      BPR_NICHES = d.niches;
+      var grid = document.getElementById("niche-grid");
+      grid.innerHTML = d.niches.map(function(n){
+        return '<div class="niche pickable" data-slug="'+n.slug+'">'+n.name+'<small>'+ (n.description||"") +'</small></div>';
+      }).join("") + '<div class="niche" style="opacity:.6">+ Custom niche<small>ask us on WhatsApp</small></div>';
+      grid.querySelectorAll(".pickable").forEach(function(el){
+        el.addEventListener("click", function(){
+          grid.querySelectorAll(".pickable").forEach(function(x){x.classList.remove("sel")});
+          el.classList.add("sel");
+          openSignup(el.getAttribute("data-slug"));
+        });
+      });
+    })
+    .catch(function(){ /* static grid stays as fallback */ });
+
+  function findNiche(slug){
+    for(var i=0;i<BPR_NICHES.length;i++){ if(BPR_NICHES[i].slug===slug) return BPR_NICHES[i]; }
+    return null;
+  }
+
+  function openSignup(slug){
+    BPR_SELECTED = findNiche(slug);
+    if(!BPR_SELECTED) return;
+    document.getElementById("signup-modal").style.display = "block";
+    document.getElementById("su-body").innerHTML = [
+      '<h3>Start: '+BPR_SELECTED.name+'</h3>',
+      '<div class="su-price"><b>₹'+Number(BPR_SELECTED.price||1999).toLocaleString("en-IN")+'/month</b> · 1 reel daily on Instagram + YouTube</div>',
+      '<div class="su-grid2">',
+      '  <div><label>Your name *</label><input id="su-name" placeholder="e.g. Rahul Sharma"></div>',
+      '  <div><label>WhatsApp number *</label><input id="su-wa" inputmode="numeric" placeholder="98XXXXXXXX"></div>',
+      '</div>',
+      '<label>Email (optional)</label><input id="su-email" placeholder="you@email.com">',
+      '<div class="su-grid2">',
+      '  <div><label>Instagram handle</label><input id="su-insta" placeholder="@yourpage"></div>',
+      '  <div><label>YouTube channel</label><input id="su-yt" placeholder="Your channel"></div>',
+      '</div>',
+      '<label>Daily posting time (IST)</label>',
+      '<select id="su-time"><option>09:00</option><option>12:00</option><option>15:00</option><option>18:00</option><option selected>19:00</option><option>20:00</option><option>21:00</option></select>',
+      '<div style="height:16px"></div>',
+      '<button class="btn btn-p" style="width:100%" onclick="submitSignup()">Pay ₹'+Number(BPR_SELECTED.price||1999).toLocaleString("en-IN")+' & Start →</button>',
+      '<p class="su-err" id="su-err"></p>',
+      '<p class="su-note">Secure payment link comes on WhatsApp. Posting starts within 48 hours of payment. Cancel anytime.</p>',
+    ].join("\n");
+  }
+
+  function submitSignup(){
+    var err = document.getElementById("su-err");
+    err.textContent = "";
+    var btn = event.target; btn.textContent = "Submitting…"; btn.disabled = true;
+    fetch(BPR_API, {method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({action:"start_subscription", subscription:{
+        name: document.getElementById("su-name").value,
+        whatsapp: document.getElementById("su-wa").value,
+        email: document.getElementById("su-email").value,
+        insta_handle: document.getElementById("su-insta").value,
+        yt_handle: document.getElementById("su-yt").value,
+        posting_time: document.getElementById("su-time").value,
+        niche: BPR_SELECTED.slug
+      }})})
+      .then(function(r){return r.json().then(function(d){return {ok:r.ok, d:d}})})
+      .then(function(res){
+        if(!res.ok){ err.textContent = res.d.error || "Something went wrong. Please try again."; btn.disabled=false; btn.textContent="Try again"; return; }
+        showSuccess(res.d.reference);
+      })
+      .catch(function(){ err.textContent = "Network problem — please check your connection."; btn.disabled=false; btn.textContent="Try again"; });
+  }
+
+  function showSuccess(ref){
+    var waText = encodeURIComponent("Hi! I just subscribed to BP Reels.\nNiche: "+BPR_SELECTED.name+"\nReference: "+ref+"\nPlease send me the payment link to activate my daily posting.");
+    var waLink = "https://wa.me/" + window.WA_NUMBER + "?text=" + waText;
+    document.getElementById("su-body").innerHTML = [
+      '<div class="su-success">',
+      '  <div class="su-check">🎉</div>',
+      '  <h3>You\'re on the list!</h3>',
+      '  <p class="su-price">Your reference: </p>',
+      '  <div class="su-ref">'+ref+'</div>',
+      '  <p style="font-size:.92rem">Step 1 — Tap below and send us the message. We reply with your <b>secure payment link</b> (UPI / card).</p>',
+      '  <div style="height:14px"></div>',
+      '  <a class="btn btn-p" style="width:100%" href="'+waLink+'" target="_blank" rel="noopener">Send on WhatsApp →</a>',
+      '  <p class="su-note">Step 2 — Pay, and we activate your daily posting within 48 hours. If the button doesn\'t open WhatsApp, save this reference and message us anytime.</p>',
+      '</div>'
+    ].join("\n");
+  }
+
+  document.getElementById("signup-modal").addEventListener("click", function(e){
+    if(e.target.id === "signup-modal") document.getElementById("signup-modal").style.display = "none";
+  });
+</script>
 </body>
+</html>
 </html>
