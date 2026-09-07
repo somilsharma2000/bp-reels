@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BP Reels — Daily Auto-Posting for Your Instagram & YouTube</title>
 <meta name="description" content="Pick your niche. We post trending reels to your Instagram and YouTube every single day — automatically. Launch offer ₹1,999/month.">
+<!-- WhatsApp / social share preview -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="BP Reels — Your Reels. Posted Daily. Automatically.">
+<meta property="og:description" content="Instagram + YouTube autopilot. Pick your niche, we post daily. No passwords, no tech skills.">
+<meta property="og:image" content="https://media.base44.com/images/public/6a951232721dcd9fd8509a16/1f0c64c74_generated_image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
 <style>
   :root{
     --bg:#0b0b12; --card:#14141f; --card2:#1b1b2a; --line:#2a2a3d;
@@ -15,6 +22,11 @@
   html{scroll-behavior:smooth}
   body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans",sans-serif;line-height:1.6;overflow-x:hidden}
   .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+  a{color:inherit}
+
+  /* COUNTDOWN BAR */
+  .cd-bar{background:linear-gradient(90deg,var(--grad1),var(--grad2));text-align:center;padding:9px 16px;font-weight:700;font-size:.85rem;color:#fff;position:sticky;top:0;z-index:60}
+  .cd-bar .cd{background:rgba(0,0,0,.28);padding:2px 10px;border-radius:8px;font-variant-numeric:tabular-nums;margin-left:6px}
 
   /* NAV */
   nav{position:sticky;top:0;z-index:50;background:rgba(11,11,18,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
@@ -83,6 +95,11 @@
   .t-card p{color:var(--muted);font-size:.9rem}
   .t-ico{font-size:1.4rem;margin-bottom:12px;display:block}
 
+  /* GUARANTEE */
+  .guarantee{max-width:680px;margin:36px auto 0;border:1px solid var(--grad3);background:linear-gradient(160deg,rgba(6,182,212,.08),var(--card));border-radius:18px;padding:28px;text-align:center}
+  .guarantee h3{font-size:1.15rem;margin-bottom:10px}
+  .guarantee p{color:var(--muted);font-size:.92rem}
+
   /* FAQ */
   .faq{max-width:720px;margin-top:36px}
   details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 22px;margin-bottom:12px}
@@ -97,9 +114,12 @@
 
   footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:.8rem;text-align:center}
   footer a{color:#c4b5fd;text-decoration:none}
+  .foot-links{margin:10px 0;display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
 </style>
 </head>
 <body>
+
+<div class="cd-bar">🔥 Launch price ₹1,999/mo — offer ends in <span class="cd" id="cd">48:00:00</span> <span style="opacity:.85">· then ₹2,999</span></div>
 
 <nav>
   <div class="nav-in">
@@ -182,6 +202,11 @@
       <a href="#" id="wa-cta" class="btn btn-p" style="width:100%">Message us on WhatsApp →</a>
       <p class="hero-note" style="margin-top:14px">Pay after we confirm your niche is available.</p>
     </div>
+
+    <div class="guarantee">
+      <h3>🛡️ Our Consistency Guarantee — in writing</h3>
+      <p>If we ever miss <b>more than 3 posting days</b> in your monthly cycle, your next month is <b>free</b>. No forms, no arguments — just message us on WhatsApp and it's applied.</p>
+    </div>
   </div>
 </section>
 
@@ -209,6 +234,7 @@
       <details><summary>Can I choose what gets posted?</summary><p>Yes. You pick the niche and posting time, and we can swap out any video you don't like. Just message us on WhatsApp.</p></details>
       <details><summary>What do I need to get started?</summary><p>An Instagram Business/Creator account (free to switch, we'll guide you) and a YouTube channel. That's all.</p></details>
       <details><summary>When does posting start?</summary><p>Within 48 hours of your setup call. You'll see the first reel go out on schedule.</p></details>
+      <details><summary>What if posting stops or a day is missed?</summary><p>Our Consistency Guarantee covers you: if we miss more than 3 posting days in your monthly cycle, your next month is free.</p></details>
     </div>
   </div>
 </section>
@@ -223,13 +249,35 @@
 
 <footer>
   <div class="wrap">
-    <p><b>BP Reels</b> — a Beyond Pixells product · Questions? <a href="#" id="wa-foot">WhatsApp us</a></p>
+    <p><b>BP Reels</b> — a Beyond Pixells product</p>
+    <div class="foot-links">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="data-deletion.html">Data Deletion</a>
+    </div>
+    <p>Questions? <a href="#" id="wa-foot">WhatsApp us</a></p>
     <p style="margin-top:6px">© 2026 Beyond Pixells. All rights reserved.</p>
   </div>
 </footer>
 
 <script>
-  // TODO: Replace with your real WhatsApp number (country code, no + or spaces)
+  // Countdown: 48 hours from first visit, persists per visitor
+  try{
+    var KEY='bpr_deadline';
+    var dl=localStorage.getItem(KEY);
+    if(!dl){dl=Date.now()+48*3600*1000;localStorage.setItem(KEY,dl);}
+    var cdEl=document.getElementById('cd');
+    function tick(){
+      var s=Math.max(0,Math.floor((dl-Date.now())/1000));
+      var h=String(Math.floor(s/3600)).padStart(2,'0');
+      var m=String(Math.floor(s%3600/60)).padStart(2,'0');
+      var sec=String(s%60).padStart(2,'0');
+      cdEl.textContent=h+':'+m+':'+sec;
+    }
+    tick();setInterval(tick,1000);
+  }catch(e){}
+
+  // TODO: Replace with real WhatsApp number (country code, no + or spaces)
   var WA_NUMBER = "919XXXXXXXXX";
   var WA_MSG = encodeURIComponent("Hi! I want to start auto-posting for my page. My niche is: ");
   document.querySelectorAll("#wa-cta, #wa-cta2, #wa-foot").forEach(function(el){
