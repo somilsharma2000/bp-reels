@@ -394,37 +394,64 @@ async function saveCustomer(id){
 }
 
 /* ---------- NICHES ---------- */
+let LIB_STATS = {};
 async function loadNiches(){
   const res = await fetch(API, { method:"POST", headers:{ "Content-Type":"application/json", "x-admin-key": PW },
     body: JSON.stringify({ action: "list_niches", password: PW }) });
   const data = await res.json();
+  try { const ls = await api("library_stats"); LIB_STATS = ls.stats || {}; } catch(e){}
   const el = document.getElementById("niche-cards");
   if (!data.niches || !data.niches.length){ el.innerHTML = '<div class="empty">No niches yet.</div>'; return; }
-  el.innerHTML = data.niches.map(n=>`
+  el.innerHTML = data.niches.map(n=>{
+    const count = LIB_STATS[n.slug] || 0;
+    const lib = n.library_folder_url
+      ? `<span>📁 Library: <b>${count} reels</b></span>`
+      : `<span style="opacity:.55">📁 no library linked yet</span>`;
+    return `
     <div class="card">
       <div class="top"><h3>${esc(n.name)}</h3><span class="badge ${n.active ? "active" : "paused"}">${n.active ? "live" : "hidden"}</span></div>
       <div class="meta"><span>/${esc(n.slug)} · ₹${(n.price||0).toLocaleString("en-IN")}/mo</span><span>${esc(n.description||"")}</span></div>
+      <div class="meta">${lib}</div>
       <div class="actions">
         <button class="btn small ghost" onclick="openNicheEdit('${n.id}')">Edit</button>
         <button class="btn small ghost" onclick="toggleNiche('${n.id}',${!n.active})">${n.active ? "Hide from site" : "Show on site"}</button>
+        ${n.library_folder_url ? `<button class="btn small ghost" onclick="syncLibrary('${n.id}')">⟳ Sync library</button>` : ""}
         <button class="btn small danger" onclick="delNiche('${n.id}')">Delete</button>
       </div>
-    </div>`).join("");
+    </div>`;}).join("");
+}
+
+async function syncLibrary(id){
+  toast("Reading Drive folder…");
+  try {
+    const r = await api("sync_library", { niche_id: id });
+    toast(`Library synced: ${r.folder_videos} videos in folder, ${r.new_reels} new added — ${r.library_size} total`);
+    loadNiches();
+  } catch(e){}
 }
 
 function openNicheEdit(id){
   const isNew = !id;
+  let n = null;
+  if (!isNew) {
+    const res = await fetch(API, { method:"POST", headers:{ "Content-Type":"application/json", "x-admin-key": PW },
+      body: JSON.stringify({ action: "list_niches", password: PW }) });
+    const data = await res.json();
+    n = (data.niches||[]).find(x=>x.id===id) || null;
+  }
   const body = document.getElementById("modal-body");
   document.getElementById("modal").style.display = "block";
   body.innerHTML = `
     <h3 style="margin-bottom:16px">${isNew ? "Add Niche" : "Edit Niche"}</h3>
     <div class="grid2">
-      <div class="row"><label>Display name *</label><input id="n-name" placeholder="Gym & Fitness"></div>
-      <div class="row"><label>Slug (one word) *</label><input id="n-slug" placeholder="gym"></div>
-      <div class="row"><label>Price (₹/mo)</label><input id="n-price" type="number" value="1999"></div>
-      <div class="row"><label>On the website?</label><select id="n-active"><option value="yes">Yes — live</option><option value="no">No — hidden</option></select></div>
+      <div class="row"><label>Display name *</label><input id="n-name" placeholder="Gym & Fitness" value="${esc(n?n.name:"")}"></div>
+      <div class="row"><label>Slug (one word) *</label><input id="n-slug" placeholder="gym" value="${esc(n?n.slug:"")}"></div>
+      <div class="row"><label>Price (₹/mo)</label><input id="n-price" type="number" value="${n?(n.price||1999):1999}"></div>
+      <div class="row"><label>On the website?</label><select id="n-active"><option value="yes" ${!n||n.active?"selected":""}>Yes — live</option><option value="no" ${n&&!n.active?"selected":""}>No — hidden</option></select></div>
     </div>
-    <div class="row"><label>Short description (card line)</label><input id="n-desc" placeholder="Workout clips that make fitness pages blow up"></div>
+    <div class="row"><label>Short description (card line)</label><input id="n-desc" placeholder="Workout clips that make fitness pages blow up" value="${esc(n?n.description||"":"")}"></div>
+    <div class="row"><label>Master library — Drive folder link (share as "Anyone with link")</label><input id="n-lib" placeholder="https://drive.google.com/drive/folders/…" value="${esc(n?n.library_folder_url||"":"")}"></div>
+    <p style="font-size:.78rem;opacity:.7;margin:2px 0 0">Put up to 500 reels for this niche in one Drive folder, share it as "Anyone with link", paste the link here, then hit "⟳ Sync library" on the niche card.</p>
     <div style="display:flex;gap:10px;justify-content:flex-end">
       <button class="btn ghost" onclick="closeModal()">Cancel</button>
       <button class="btn" onclick="saveNiche(${isNew?"null":"'"+id+"'"})">Save Niche</button>
@@ -434,6 +461,7 @@ async function saveNiche(id){
   const niche = {
     name: val("n-name"), slug: val("n-slug"), price: Number(val("n-price")) || 1999,
     description: val("n-desc"), active: val("n-active") === "yes",
+    library_folder_url: val("n-lib"),
   };
   if (!niche.name || !niche.slug) { toast("Name and slug required", true); return; }
   await api("save_niche", id ? { niche_id: id, niche } : { niche });
